@@ -6,7 +6,7 @@ variable "location" {
 
 variable "resource_group_name" {
     type = string
-    default = "Final_POC"
+    default = "3-tier"
   
 }
 variable "environment" {
