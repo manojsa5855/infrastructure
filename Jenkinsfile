@@ -1,8 +1,9 @@
 pipeline{
+  agentany
 stages{
 stage('Fetching cluster Infrastucture Code') {
           steps{
-              git branch: 'main', url:'https://github.com/sharonraju143/Project_final.git'
+              git branch: 'main', url:'https://github.com/manojsa5855/infrastructure.git'
           }  
         }
 
@@ -14,3 +15,9 @@ stage('Fetching cluster Infrastucture Code') {
                     sh 'echo "[Master]" > /etc/ansible/hosts | az vm show -d -g Final_POC -n master-vm --query publicIps -o tsv >> /etc/ansible/hosts'
                     sh 'echo "[worker]" >> /etc/ansible/hosts | az vm show -d -g Final_POC -n worker-vm --query publicIps -o tsv >> /etc/ansible/hosts'
                     sh 'ansible-playbook site.yml'
+                  
+                }
+            }
+       }
+}
+}
