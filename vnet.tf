@@ -9,6 +9,6 @@ resource "azurerm_subnet" "az_subnet" {
   name                 = "infra_subnet"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.0.0/24"]
+  address_prefixes     = ["11.0.0.0/24"]
 }
 
