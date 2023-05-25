@@ -6,7 +6,7 @@ variable "location" {
 
 variable "resource_group_name" {
     type = string
-    default = "3-tier"
+    default = "3-tier-1"
   
 }
 variable "environment" {
