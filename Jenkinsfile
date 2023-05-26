@@ -1,23 +1,39 @@
-pipeline{
-  agentany
-stages{
-stage('Fetching cluster Infrastucture Code') {
-  steps{
-    git branch: 'main', credentialsId: 'gitcred', url: 'https://github.com/manojsa5855/infrastructure.git'
-     }
-}
+pipeline {
+    agent any
 
-       stage('Terraform Init') {
-            steps {
-                script {
-                    sh 'terraform init'
-                    sh 'terraform apply --auto-approve -lock=false'
-                    sh 'echo "[Master]" > /etc/ansible/hosts | az vm show -d -g 3-tier-1 -n master-vm --query publicIps -o tsv >> /etc/ansible/hosts'
-                    sh 'echo "[worker]" >> /etc/ansible/hosts | az vm show -d -g 3-tier-1 -n worker-vm --query publicIps -o tsv >> /etc/ansible/hosts'
-                    sh 'ansible-playbook site.yml'
-                  
+    stages {
+        stage('Fetching cluster Infrastructure Code') {
+            steps {
+                git branch: 'main', credentialsId: 'gitcred', url: 'https://github.com/manojsa5855/infrastructure.git'
+            }
+        }
+
+        stage('Terraform Init and Apply') {
+            steps {
+                script {
+                    sh 'terraform init'
+                    sh 'terraform apply --auto-approve -lock=false'
                 }
             }
-       }
-}
+        }
+
+        stage('Configure Ansible') {
+            steps {
+                script {
+                    sh 'echo "[Master]" > /etc/ansible/hosts'
+                    sh 'az vm show -d -g 3-tier-1 -n master-vm --query publicIps -o tsv >> /etc/ansible/hosts'
+                    sh 'echo "[worker]" >> /etc/ansible/hosts'
+                    sh 'az vm show -d -g 3-tier-1 -n worker-vm --query publicIps -o tsv >> /etc/ansible/hosts'
+                }
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                script {
+                    sh 'ansible-playbook site.yml'
+                }
+            }
+        }
+    }
 }
