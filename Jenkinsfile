@@ -4,8 +4,8 @@ stages{
 stage('Fetching cluster Infrastucture Code') {
   steps{
     git branch: 'main', credentialsId: 'gitcred', url: 'https://github.com/manojsa5855/infrastructure.git'
-          }  
-        }
+     }
+}
 
        stage('Terraform Init') {
             steps {
