@@ -12,8 +12,8 @@ stage('Fetching cluster Infrastucture Code') {
                 script {
                     sh 'terraform init'
                     sh 'terraform apply --auto-approve -lock=false'
-                    sh 'echo "[Master]" > /etc/ansible/hosts | az vm show -d -g Final_POC -n master-vm --query publicIps -o tsv >> /etc/ansible/hosts'
-                    sh 'echo "[worker]" >> /etc/ansible/hosts | az vm show -d -g Final_POC -n worker-vm --query publicIps -o tsv >> /etc/ansible/hosts'
+                    sh 'echo "[Master]" > /etc/ansible/hosts | az vm show -d -g 3-tier-1 -n master-vm --query publicIps -o tsv >> /etc/ansible/hosts'
+                    sh 'echo "[worker]" >> /etc/ansible/hosts | az vm show -d -g 3-tier-1 -n worker-vm --query publicIps -o tsv >> /etc/ansible/hosts'
                     sh 'ansible-playbook site.yml'
                   
                 }
