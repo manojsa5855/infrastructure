@@ -2,7 +2,7 @@ pipeline{
   agentany
 stages{
 stage('Fetching cluster Infrastucture Code') {
-          steps{
+  steps{
               git branch: 'main', url:'https://github.com/manojsa5855/infrastructure.git'
           }  
         }
